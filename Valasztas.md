@@ -319,11 +319,18 @@ Azokban a szavazókörökben, ahol gyanúsan magas volt a FIDESZ szavazók arán
 Egyes esetek megvizsgálása
 --------------------------
 
-Végigpörgetve a kirívó eseteket:
-\* A BUDAPEST XVI. kerület 54-es szavazókörben a FIDESZ-re egyéni-listás szavazatok száma 459-362, tehát az egyéni-listás FIDESZ szavazatok aránya 1.26. Ezzel szemben a teljes XVI. kerületben ez az arány 1.04, minimális szórással. Szinte biztos, hogy rosszul lettek számolva a szavazatok.
-\* Berkesden (Baranya 2) a FIDESZ a listásnál az egyéniben 37%-kal nagyobb támogatottságát (262-191) valószínűleg a 76 mozgósított nemzetiséginek köszönheti, akik közül - bár a nemzetiségi névjegyzékben vannak feltűntetve - 27-en nem szavaztak érvényesen a nemzetiségi listára (2-nek nem is volt lepecsételve a szavazólapja). Itt csak FIDESZ-es volt a bizottsag.
-\* Hasonló a helyzet szintén Kővágószőlős 2-n, ahol az arányok 14% (152-133), 18 nemzetiségi, ebből 12 érvényes nemzetiségi listás szavazat (12 roma); valamint Perekeden (70-31), ahol 45 nemzetiségi, 39 ervenyes nemzetisegi listas (30 nemet, 9 roma), es csak FIDESZ-es bizottsag volt.
-\* Piskón (Baranya 4) a 139 egyéni és listás érvényes szavazatokkal egyéniben 132-et, listán 132-t tudott behozni a FIDESZ. Ez egyéniben 96%-os támogatottság, míg az egész Baranya 4-ben ez az arány átlagosan 54%. Megjegyzem, ez pont egy olyan szavazókör, ahol csak FIDESZ-es bizottsági tag volt.
-\* Alsózsolca 1, 2 és 4-es szavazókörökben a BORSOD 1 választókerülethez hasonlóan a FIDESZ egyéni szavazatok aránya 40% körül van. Ezzel szemben, Alsózsolca 3 és 5 szavazókörökben kiemelkedően magas FIDESZ támogatottság van, 67% és 64%, és a szavazatok szinte kizárólag a Jobbiktól lettek "átcsoportosítva". Ezekben a körzetekben a megjelentek aránya is sokkal alacsonyabb, Alsózsolca 1, 2 és 4-ben 74%, 73%, 71,5%-kal szemben Alsózsolca 3, 5-ben 63% és 59%. Az érvénytelen szavazatok aránya elég magas, Alsózsolca 5-ben például 4%. Erre a jelenségre nem találtam választ...volt többféle pártból is delegált. Van valami demográfiai oka ennek? **Azért is érdekes lenne kideríteni, mert pont BORSOD 1-ben 127 szavazatkülönbséggel nyert csak a FIDESZ.**
-\* Szajla 1 és 2 (Heves 2) között is hasonló jellegű a különbség, Szajla 1 szavazókörben 89%-os a FIDESZ támogatottság, míg Szajla 2-ben mindössze 63%. Szajla 1-ben és 2-ben is csak FIDESZ-es volt egyébként a szavazatszámláló bizottság tagja.
+Végigpörgetve a kirívó eseteket:  
+
+\* A BUDAPEST XVI. kerület 54-es szavazókörben a FIDESZ-re egyéni-listás szavazatok száma 459-362, tehát az egyéni-listás FIDESZ szavazatok aránya 1.26. Ezzel szemben a teljes XVI. kerületben ez az arány 1.04, minimális szórással. Szinte biztos, hogy rosszul lettek számolva a szavazatok.  
+
+\* Berkesden (Baranya 2) a FIDESZ a listásnál az egyéniben 37%-kal nagyobb támogatottságát (262-191) valószínűleg a 76 mozgósított nemzetiséginek köszönheti, akik közül - bár a nemzetiségi névjegyzékben vannak feltűntetve - 27-en nem szavaztak érvényesen a nemzetiségi listára (2-nek nem is volt lepecsételve a szavazólapja). Itt csak FIDESZ-es volt a bizottsag.  
+
+\* Hasonló a helyzet szintén Kővágószőlős 2-n, ahol az arányok 14% (152-133), 18 nemzetiségi, ebből 12 érvényes nemzetiségi listás szavazat (12 roma); valamint Perekeden (70-31), ahol 45 nemzetiségi, 39 ervenyes nemzetisegi listas (30 nemet, 9 roma), es csak FIDESZ-es bizottsag volt.  
+
+\* Piskón (Baranya 4) a 139 egyéni és listás érvényes szavazatokkal egyéniben 132-et, listán 132-t tudott behozni a FIDESZ. Ez egyéniben 96%-os támogatottság, míg az egész Baranya 4-ben ez az arány átlagosan 54%. Megjegyzem, ez pont egy olyan szavazókör, ahol csak FIDESZ-es bizottsági tag volt.  
+
+\* Alsózsolca 1, 2 és 4-es szavazókörökben a BORSOD 1 választókerülethez hasonlóan a FIDESZ egyéni szavazatok aránya 40% körül van. Ezzel szemben, Alsózsolca 3 és 5 szavazókörökben kiemelkedően magas FIDESZ támogatottság van, 67% és 64%, és a szavazatok szinte kizárólag a Jobbiktól lettek "átcsoportosítva". Ezekben a körzetekben a megjelentek aránya is sokkal alacsonyabb, Alsózsolca 1, 2 és 4-ben 74%, 73%, 71,5%-kal szemben Alsózsolca 3, 5-ben 63% és 59%. Az érvénytelen szavazatok aránya elég magas, Alsózsolca 5-ben például 4%. Erre a jelenségre nem találtam választ...volt többféle pártból is delegált. Van valami demográfiai oka ennek? **Azért is érdekes lenne kideríteni, mert pont BORSOD 1-ben 127 szavazatkülönbséggel nyert csak a FIDESZ.**  
+
+\* Szajla 1 és 2 (Heves 2) között is hasonló jellegű a különbség, Szajla 1 szavazókörben 89%-os a FIDESZ támogatottság, míg Szajla 2-ben mindössze 63%. Szajla 1-ben és 2-ben is csak FIDESZ-es volt egyébként a szavazatszámláló bizottság tagja.  
+
 \* ... Sajnos idő hiányában nem tudom a többi "gyanús" szavazókört átnézni.
