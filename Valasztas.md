@@ -14,314 +14,134 @@ Ez a dokumentum egy elemzés a 2018 április 8-i országgyűlési választások 
 Adatok beolvasása
 -----------------
 
-    ##   MegyeID    Megye OEVK TelepID           Telepules Szavazokor
-    ## 2       1 BUDAPEST    1       1 Budapest I. kerület          1
-    ## 3       1 BUDAPEST    1       1 Budapest I. kerület          2
-    ## 4       1 BUDAPEST    1       1 Budapest I. kerület          3
-    ## 5       1 BUDAPEST    1       1 Budapest I. kerület          4
-    ## 6       1 BUDAPEST    1       1 Budapest I. kerület          5
-    ## 7       1 BUDAPEST    1       1 Budapest I. kerület          6
-    ##   egyeni_Nevjegyzekben egyeni_Megjelent egyeni_Atjel..nevj.
-    ## 2                 1001              845                  NA
-    ## 3                  976              796                  NA
-    ## 4                 1030              677                1595
-    ## 5                  946              722                  NA
-    ## 6                  917              740                  NA
-    ## 7                 1007              822                  NA
-    ##   egyeni_Atjel..megj. egyeni_Atjel..boritek egyeni_pecset.nelkul
-    ## 2                  NA                    NA                    0
-    ## 3                  NA                    NA                    0
-    ## 4                1513                  1504                    0
-    ## 5                  NA                    NA                    0
-    ## 6                  NA                    NA                    1
-    ## 7                  NA                    NA                    0
-    ##   egyeni_pecsettel egyeni_tobblet.hiany egyeni_ervenytelen egyeni_ervenyes
-    ## 2              843                   -2                  5             838
-    ## 3              793                   -3                  7             786
-    ## 4              675                   -2                  5             670
-    ## 5              720                   -2                 12             708
-    ## 6              739                   -1                  7             732
-    ## 7              819                   -3                  6             813
-    ##   egyeni_... egyeni_A.HAZA.PARTJA egyeni_AQP egyeni_CIVIL.MOZGALOM
-    ## 2         NA                   NA         NA                    NA
-    ## 3         NA                   NA         NA                    NA
-    ## 4         NA                   NA         NA                    NA
-    ## 5         NA                   NA         NA                    NA
-    ## 6         NA                   NA         NA                    NA
-    ## 7         NA                   NA         NA                    NA
-    ##   egyeni_CSP egyeni_DEMOKRATA.PART egyeni_DK egyeni_DMP egyeni_ECDP
-    ## 2         NA                    NA        NA         NA          NA
-    ## 3         NA                    NA        NA         NA          NA
-    ## 4         NA                    NA        NA         NA          NA
-    ## 5         NA                    NA        NA         NA          NA
-    ## 6         NA                    NA        NA         NA          NA
-    ## 7         NA                    NA        NA         NA          NA
-    ##   egyeni_EGYUTT egyeni_EMMO egyeni_EP egyeni_ERP egyeni_EU.ALTERNATIVA
-    ## 2             0          NA        NA         NA                    NA
-    ## 3             0          NA        NA         NA                    NA
-    ## 4             0          NA        NA         NA                    NA
-    ## 5             0          NA        NA         NA                    NA
-    ## 6             0          NA        NA         NA                    NA
-    ## 7             0          NA        NA         NA                    NA
-    ##   egyeni_EU.ROM egyeni_FIDESZ.KDNP egyeni_FITIP egyeni_FKGP
-    ## 2            NA                384           NA          NA
-    ## 3            NA                351           NA          NA
-    ## 4            NA                323           NA          NA
-    ## 5            NA                341           NA          NA
-    ## 6            NA                330           NA          NA
-    ## 7            NA                361           NA          NA
-    ##   egyeni_Fuggetlen.jelolt egyeni_HAJRA.MAGYARORSZAG. egyeni_HAM
-    ## 2                      NA                         NA         NA
-    ## 3                      NA                         NA         NA
-    ## 4                      NA                         NA         NA
-    ## 5                      NA                         NA         NA
-    ## 6                      NA                         NA         NA
-    ## 7                      NA                         NA         NA
-    ##   egyeni_HAZA.MINDENKIE egyeni_HHP egyeni_IMA egyeni_IRANYTU egyeni_JMP
-    ## 2                    NA         NA         NA             NA         NA
-    ## 3                    NA         NA         NA             NA         NA
-    ## 4                    NA         NA         NA             NA         NA
-    ## 5                    NA         NA         NA             NA         NA
-    ## 6                    NA         NA         NA             NA         NA
-    ## 7                    NA         NA         NA             NA         NA
-    ##   egyeni_JOBBIK egyeni_JO.UT.MPP egyeni_KEDN egyeni_KPP egyeni_KOSSZ
-    ## 2            37               NA          NA         NA           NA
-    ## 3            43               NA          NA         NA           NA
-    ## 4            31               NA          NA         NA           NA
-    ## 5            35               NA          NA         NA           NA
-    ## 6            31               NA          NA         NA           NA
-    ## 7            38               NA          NA         NA           NA
-    ##   egyeni_KOZOS.NEVEZO egyeni_LENDULETTEL egyeni_LMP egyeni_MCP
-    ## 2                  NA                 NA        392         NA
-    ## 3                  NA                 NA        368         NA
-    ## 4                  NA                 NA        294         NA
-    ## 5                  NA                 NA        308         NA
-    ## 6                  NA                 NA        353         NA
-    ## 7                  NA                 NA        396         NA
-    ##   egyeni_MEDETE.PART egyeni_MINOKP egyeni_MISZEP egyeni_MIEP egyeni_MKKP
-    ## 2                 NA            NA            NA          NA          25
-    ## 3                 NA            NA            NA          NA          24
-    ## 4                 NA            NA            NA          NA          22
-    ## 5                 NA            NA            NA          NA          24
-    ## 6                 NA            NA            NA          NA          18
-    ## 7                 NA            NA            NA          NA          18
-    ##   egyeni_MMM egyeni_MODERN.MAGYARORSZAG.MOZGALOM..MOMA. egyeni_MOMENTUM
-    ## 2         NA                                         NA               0
-    ## 3         NA                                         NA               0
-    ## 4         NA                                         NA               0
-    ## 5         NA                                         NA               0
-    ## 6         NA                                         NA               0
-    ## 7         NA                                         NA               0
-    ##   egyeni_MSZP.PARBESZED egyeni_MUNKASPART egyeni_MVMP egyeni_NEEM
-    ## 2                     0                NA          NA          NA
-    ## 3                     0                NA          NA          NA
-    ## 4                     0                NA          NA          NA
-    ## 5                     0                NA          NA          NA
-    ## 6                     0                NA          NA          NA
-    ## 7                     0                NA          NA          NA
-    ##   egyeni_NEMZET.ES.BEKE egyeni_NEMZETI.ZOLDEK egyeni_NOP egyeni_NP
-    ## 2                    NA                    NA         NA        NA
-    ## 3                    NA                    NA         NA        NA
-    ## 4                    NA                    NA         NA        NA
-    ## 5                    NA                    NA         NA        NA
-    ## 6                    NA                    NA         NA        NA
-    ## 7                    NA                    NA         NA        NA
-    ##   egyeni_OCP egyeni_OP egyeni_OPRE.ROMA egyeni_REND.PART egyeni_SEM
-    ## 2         NA        NA               NA               NA         NA
-    ## 3         NA        NA               NA               NA         NA
-    ## 4         NA        NA               NA               NA         NA
-    ## 5         NA        NA               NA               NA         NA
-    ## 6         NA        NA               NA               NA         NA
-    ## 7         NA        NA               NA               NA         NA
-    ##   egyeni_SZEM.PART egyeni_SZP egyeni_TAMP egyeni_EBMP
-    ## 2               NA         NA          NA          NA
-    ## 3               NA         NA          NA          NA
-    ## 4               NA         NA          NA          NA
-    ## 5               NA         NA          NA          NA
-    ## 6               NA         NA          NA          NA
-    ## 7               NA         NA          NA          NA
-    ##   egyeni_ERTUNK.ERTETEK egyeni_UMF orszagos_nevjegyzekben
-    ## 2                    NA         NA                   1000
-    ## 3                    NA         NA                    976
-    ## 4                    NA         NA                   1028
-    ## 5                    NA         NA                    946
-    ## 6                    NA         NA                    915
-    ## 7                    NA         NA                   1006
-    ##   orszagos_megjelent orszagos_pecset.nelkuli.lap orszagos_pecsetelt.lap
-    ## 2                844                           0                    843
-    ## 3                796                           0                    796
-    ## 4                675                           0                    676
-    ## 5                722                           0                    721
-    ## 6                739                           0                    739
-    ## 7                821                           0                    820
-    ##   orszagos_tobblet.hiany orszagos_ervenytelen orszagos_ervenyes
-    ## 2                     -1                    7               836
-    ## 3                      0                    4               792
-    ## 4                      1                   16               660
-    ## 5                     -1                    8               713
-    ## 6                      0                    6               733
-    ## 7                     -1                    2               818
-    ##   orszagos_CSALADOK.PARTJA orszagos_DEMOKRATIKUS.KOALICIO
-    ## 2                        1                             33
-    ## 3                        1                             49
-    ## 4                        0                             42
-    ## 5                        2                             59
-    ## 6                        1                             43
-    ## 7                        0                             47
-    ##   orszagos_EGYUTT...A.KORSZAKVALTOK.PARTJA
-    ## 2                                       24
-    ## 3                                       15
-    ## 4                                       11
-    ## 5                                       12
-    ## 6                                       28
-    ## 7                                       25
-    ##   orszagos_EUROPAI.ROMA.KERESZTENYEK.JOBBLETEERT.DEMOKRATIKUS.PART
-    ## 2                                                                0
-    ## 3                                                                0
-    ## 4                                                                0
-    ## 5                                                                0
-    ## 6                                                                0
-    ## 7                                                                0
-    ##   orszagos_FIDESZ...KDNP orszagos_IRANYTU.PART
-    ## 2                    382                     0
-    ## 3                    350                     0
-    ## 4                    318                     0
-    ## 5                    336                     0
-    ## 6                    323                     0
-    ## 7                    361                     1
-    ##   orszagos_JOBBIK.MAGYARORSZAGERT.MOZGALOM
-    ## 2                                       61
-    ## 3                                       74
-    ## 4                                       44
-    ## 5                                       47
-    ## 6                                       46
-    ## 7                                       66
-    ##   orszagos_KELL.AZ.OSSZEFOGAS.PART orszagos_KOZOS.NEVEZO.2018
-    ## 2                                0                          0
-    ## 3                                0                          0
-    ## 4                                1                          0
-    ## 5                                0                          0
-    ## 6                                0                          1
-    ## 7                                0                          0
-    ##   orszagos_LEHET.MAS.A.POLITIKA orszagos_MAGYAR.IGAZSAG.ES.ELET.PARTJA
-    ## 2                           116                                      0
-    ## 3                           117                                      0
-    ## 4                            81                                      0
-    ## 5                           108                                      0
-    ## 6                           104                                      0
-    ## 7                           131                                      1
-    ##   orszagos_MAGYAR.KETFARKU.KUTYA.PART orszagos_MAGYAR.MUNKASPART
-    ## 2                                  27                          2
-    ## 3                                  23                          1
-    ## 4                                  26                          0
-    ## 5                                  21                          3
-    ## 6                                  25                          1
-    ## 7                                  27                          1
-    ##   orszagos_MAGYAR.SZOCIALISTA.PART....PARBESZED.MAGYARORSZAGERT
-    ## 2                                                           115
-    ## 3                                                           107
-    ## 4                                                            96
-    ## 5                                                            80
-    ## 6                                                            98
-    ## 7                                                           103
-    ##   orszagos_MAGYARORSZAGI.CIGANYPART
-    ## 2                                 0
-    ## 3                                 0
-    ## 4                                 0
-    ## 5                                 0
-    ## 6                                 0
-    ## 7                                 0
-    ##   orszagos_MAGYARORSZAGON.ELO..DOLGOZO.ES.TANULO..EMBEREK.PARTJA
-    ## 2                                                              0
-    ## 3                                                              0
-    ## 4                                                              0
-    ## 5                                                              0
-    ## 6                                                              0
-    ## 7                                                              0
-    ##   orszagos_MOMENTUM.MOZGALOM orszagos_NET.PART
-    ## 2                         72                 0
-    ## 3                         55                 0
-    ## 4                         41                 0
-    ## 5                         44                 0
-    ## 6                         60                 0
-    ## 7                         53                 0
-    ##   orszagos_REND.ES.ELSZAMOLTATAS.PART
-    ## 2                                   1
-    ## 3                                   0
-    ## 4                                   0
-    ## 5                                   1
-    ## 6                                   0
-    ## 7                                   0
-    ##   orszagos_SPORTOS.ES.EGESZSEGES.MAGYARORSZAGERT.PART
-    ## 2                                                   2
-    ## 3                                                   0
-    ## 4                                                   0
-    ## 5                                                   0
-    ## 6                                                   3
-    ## 7                                                   2
-    ##   orszagos_SZEGENY.EMBEREK.MAGYARORSZAGERT.PART
-    ## 2                                             0
-    ## 3                                             0
-    ## 4                                             0
-    ## 5                                             0
-    ## 6                                             0
-    ## 7                                             0
-    ##   orszagos_TENNI.AKARAS.MOZGALOM orszagos_OSSZEFOGAS.PART
-    ## 2                              0                        0
-    ## 3                              0                        0
-    ## 4                              0                        0
-    ## 5                              0                        0
-    ## 6                              0                        0
-    ## 7                              0                        0
-    ##   nemzetisegi_nevjegyzekben nemzetisegi_megjelent
-    ## 2                         1                     1
-    ## 3                        NA                    NA
-    ## 4                         2                     2
-    ## 5                        NA                    NA
-    ## 6                         2                     1
-    ## 7                         1                     1
-    ##   nemzetisegi_pecset.nelkuli.lap nemzetisegi_pecsetelt.lap
-    ## 2                              0                         1
-    ## 3                             NA                        NA
-    ## 4                              0                         2
-    ## 5                             NA                        NA
-    ## 6                              0                         1
-    ## 7                              0                         1
-    ##   nemzetisegi_tobblet.hiany nemzetisegi_ervenytelen nemzetisegi_ervenyes
-    ## 2                        NA                      NA                    1
-    ## 3                        NA                      NA                   NA
-    ## 4                         0                       0                    2
-    ## 5                        NA                      NA                   NA
-    ## 6                        NA                      NA                    1
-    ## 7                        NA                      NA                    1
-    ##   nemzetisegi_Bolgar nemzetisegi_Gorog nemzetisegi_Horvat
-    ## 2                 NA                NA                 NA
-    ## 3                 NA                NA                 NA
-    ## 4                 NA                NA                  1
-    ## 5                 NA                NA                 NA
-    ## 6                  0                NA                 NA
-    ## 7                 NA                NA                 NA
-    ##   nemzetisegi_Lengyel nemzetisegi_Nemet nemzetisegi_Roma nemzetisegi_Roman
-    ## 2                   1                NA               NA                NA
-    ## 3                  NA                NA               NA                NA
-    ## 4                  NA                 1               NA                NA
-    ## 5                  NA                NA               NA                NA
-    ## 6                  NA                NA               NA                NA
-    ## 7                  NA                 1               NA                NA
-    ##   nemzetisegi_Ruszin nemzetisegi_Szerb nemzetisegi_Szlovak
-    ## 2                 NA                NA                  NA
-    ## 3                 NA                NA                  NA
-    ## 4                 NA                NA                  NA
-    ## 5                 NA                NA                  NA
-    ## 6                 NA                NA                  NA
-    ## 7                 NA                NA                  NA
-    ##   nemzetisegi_Szloven nemzetisegi_Ukran nemzetisegi_Ormeny
-    ## 2                  NA                NA                 NA
-    ## 3                  NA                NA                 NA
-    ## 4                  NA                NA                 NA
-    ## 5                  NA                NA                 NA
-    ## 6                  NA                NA                  1
-    ## 7                  NA                NA                 NA
+    ##   [1] "MegyeID"                                                         
+    ##   [2] "Megye"                                                           
+    ##   [3] "OEVK"                                                            
+    ##   [4] "TelepID"                                                         
+    ##   [5] "Telepules"                                                       
+    ##   [6] "Szavazokor"                                                      
+    ##   [7] "egyeni_Nevjegyzekben"                                            
+    ##   [8] "egyeni_Megjelent"                                                
+    ##   [9] "egyeni_Atjel..nevj."                                             
+    ##  [10] "egyeni_Atjel..megj."                                             
+    ##  [11] "egyeni_Atjel..boritek"                                           
+    ##  [12] "egyeni_pecset.nelkul"                                            
+    ##  [13] "egyeni_pecsettel"                                                
+    ##  [14] "egyeni_tobblet.hiany"                                            
+    ##  [15] "egyeni_ervenytelen"                                              
+    ##  [16] "egyeni_ervenyes"                                                 
+    ##  [17] "egyeni_..."                                                      
+    ##  [18] "egyeni_A.HAZA.PARTJA"                                            
+    ##  [19] "egyeni_AQP"                                                      
+    ##  [20] "egyeni_CIVIL.MOZGALOM"                                           
+    ##  [21] "egyeni_CSP"                                                      
+    ##  [22] "egyeni_DEMOKRATA.PART"                                           
+    ##  [23] "egyeni_DK"                                                       
+    ##  [24] "egyeni_DMP"                                                      
+    ##  [25] "egyeni_ECDP"                                                     
+    ##  [26] "egyeni_EGYUTT"                                                   
+    ##  [27] "egyeni_EMMO"                                                     
+    ##  [28] "egyeni_EP"                                                       
+    ##  [29] "egyeni_ERP"                                                      
+    ##  [30] "egyeni_EU.ALTERNATIVA"                                           
+    ##  [31] "egyeni_EU.ROM"                                                   
+    ##  [32] "egyeni_FIDESZ.KDNP"                                              
+    ##  [33] "egyeni_FITIP"                                                    
+    ##  [34] "egyeni_FKGP"                                                     
+    ##  [35] "egyeni_Fuggetlen.jelolt"                                         
+    ##  [36] "egyeni_HAJRA.MAGYARORSZAG."                                      
+    ##  [37] "egyeni_HAM"                                                      
+    ##  [38] "egyeni_HAZA.MINDENKIE"                                           
+    ##  [39] "egyeni_HHP"                                                      
+    ##  [40] "egyeni_IMA"                                                      
+    ##  [41] "egyeni_IRANYTU"                                                  
+    ##  [42] "egyeni_JMP"                                                      
+    ##  [43] "egyeni_JOBBIK"                                                   
+    ##  [44] "egyeni_JO.UT.MPP"                                                
+    ##  [45] "egyeni_KEDN"                                                     
+    ##  [46] "egyeni_KPP"                                                      
+    ##  [47] "egyeni_KOSSZ"                                                    
+    ##  [48] "egyeni_KOZOS.NEVEZO"                                             
+    ##  [49] "egyeni_LENDULETTEL"                                              
+    ##  [50] "egyeni_LMP"                                                      
+    ##  [51] "egyeni_MCP"                                                      
+    ##  [52] "egyeni_MEDETE.PART"                                              
+    ##  [53] "egyeni_MINOKP"                                                   
+    ##  [54] "egyeni_MISZEP"                                                   
+    ##  [55] "egyeni_MIEP"                                                     
+    ##  [56] "egyeni_MKKP"                                                     
+    ##  [57] "egyeni_MMM"                                                      
+    ##  [58] "egyeni_MODERN.MAGYARORSZAG.MOZGALOM..MOMA."                      
+    ##  [59] "egyeni_MOMENTUM"                                                 
+    ##  [60] "egyeni_MSZP.PARBESZED"                                           
+    ##  [61] "egyeni_MUNKASPART"                                               
+    ##  [62] "egyeni_MVMP"                                                     
+    ##  [63] "egyeni_NEEM"                                                     
+    ##  [64] "egyeni_NEMZET.ES.BEKE"                                           
+    ##  [65] "egyeni_NEMZETI.ZOLDEK"                                           
+    ##  [66] "egyeni_NOP"                                                      
+    ##  [67] "egyeni_NP"                                                       
+    ##  [68] "egyeni_OCP"                                                      
+    ##  [69] "egyeni_OP"                                                       
+    ##  [70] "egyeni_OPRE.ROMA"                                                
+    ##  [71] "egyeni_REND.PART"                                                
+    ##  [72] "egyeni_SEM"                                                      
+    ##  [73] "egyeni_SZEM.PART"                                                
+    ##  [74] "egyeni_SZP"                                                      
+    ##  [75] "egyeni_TAMP"                                                     
+    ##  [76] "egyeni_EBMP"                                                     
+    ##  [77] "egyeni_ERTUNK.ERTETEK"                                           
+    ##  [78] "egyeni_UMF"                                                      
+    ##  [79] "orszagos_nevjegyzekben"                                          
+    ##  [80] "orszagos_megjelent"                                              
+    ##  [81] "orszagos_pecset.nelkuli.lap"                                     
+    ##  [82] "orszagos_pecsetelt.lap"                                          
+    ##  [83] "orszagos_tobblet.hiany"                                          
+    ##  [84] "orszagos_ervenytelen"                                            
+    ##  [85] "orszagos_ervenyes"                                               
+    ##  [86] "orszagos_CSALADOK.PARTJA"                                        
+    ##  [87] "orszagos_DEMOKRATIKUS.KOALICIO"                                  
+    ##  [88] "orszagos_EGYUTT...A.KORSZAKVALTOK.PARTJA"                        
+    ##  [89] "orszagos_EUROPAI.ROMA.KERESZTENYEK.JOBBLETEERT.DEMOKRATIKUS.PART"
+    ##  [90] "orszagos_FIDESZ...KDNP"                                          
+    ##  [91] "orszagos_IRANYTU.PART"                                           
+    ##  [92] "orszagos_JOBBIK.MAGYARORSZAGERT.MOZGALOM"                        
+    ##  [93] "orszagos_KELL.AZ.OSSZEFOGAS.PART"                                
+    ##  [94] "orszagos_KOZOS.NEVEZO.2018"                                      
+    ##  [95] "orszagos_LEHET.MAS.A.POLITIKA"                                   
+    ##  [96] "orszagos_MAGYAR.IGAZSAG.ES.ELET.PARTJA"                          
+    ##  [97] "orszagos_MAGYAR.KETFARKU.KUTYA.PART"                             
+    ##  [98] "orszagos_MAGYAR.MUNKASPART"                                      
+    ##  [99] "orszagos_MAGYAR.SZOCIALISTA.PART....PARBESZED.MAGYARORSZAGERT"   
+    ## [100] "orszagos_MAGYARORSZAGI.CIGANYPART"                               
+    ## [101] "orszagos_MAGYARORSZAGON.ELO..DOLGOZO.ES.TANULO..EMBEREK.PARTJA"  
+    ## [102] "orszagos_MOMENTUM.MOZGALOM"                                      
+    ## [103] "orszagos_NET.PART"                                               
+    ## [104] "orszagos_REND.ES.ELSZAMOLTATAS.PART"                             
+    ## [105] "orszagos_SPORTOS.ES.EGESZSEGES.MAGYARORSZAGERT.PART"             
+    ## [106] "orszagos_SZEGENY.EMBEREK.MAGYARORSZAGERT.PART"                   
+    ## [107] "orszagos_TENNI.AKARAS.MOZGALOM"                                  
+    ## [108] "orszagos_OSSZEFOGAS.PART"                                        
+    ## [109] "nemzetisegi_nevjegyzekben"                                       
+    ## [110] "nemzetisegi_megjelent"                                           
+    ## [111] "nemzetisegi_pecset.nelkuli.lap"                                  
+    ## [112] "nemzetisegi_pecsetelt.lap"                                       
+    ## [113] "nemzetisegi_tobblet.hiany"                                       
+    ## [114] "nemzetisegi_ervenytelen"                                         
+    ## [115] "nemzetisegi_ervenyes"                                            
+    ## [116] "nemzetisegi_Bolgar"                                              
+    ## [117] "nemzetisegi_Gorog"                                               
+    ## [118] "nemzetisegi_Horvat"                                              
+    ## [119] "nemzetisegi_Lengyel"                                             
+    ## [120] "nemzetisegi_Nemet"                                               
+    ## [121] "nemzetisegi_Roma"                                                
+    ## [122] "nemzetisegi_Roman"                                               
+    ## [123] "nemzetisegi_Ruszin"                                              
+    ## [124] "nemzetisegi_Szerb"                                               
+    ## [125] "nemzetisegi_Szlovak"                                             
+    ## [126] "nemzetisegi_Szloven"                                             
+    ## [127] "nemzetisegi_Ukran"                                               
+    ## [128] "nemzetisegi_Ormeny"
 
 Választókerületen belüli eltérések elemzése
 -------------------------------------------

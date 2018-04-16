@@ -29,7 +29,7 @@ names(vdata)<-iconv(names(vdata), to='ASCII//TRANSLIT')
 
 ##Remove the summary line
 vdata<-vdata[-1,]
-head(vdata)
+names(vdata)
 ```
 
 ## Választókerületen belüli eltérések elemzése
