@@ -1,0 +1,209 @@
+---
+title: "Valasztas"
+author: "DemocracyGirl"
+date: "April 11, 2018"
+output: rmarkdown::github_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plyr)
+library(dplyr)
+library(tidyr)
+```
+
+# Magyar országgyűlési választások elemzése
+
+## Bevezető
+
+Ez a dokumentum egy elemzés a 2018 április 8-i országgyűlési választások eredményeiről.
+Az adatokat a http://valasztasbigdata.tumblr.com oldalról töltöttem le, és alapvető statisztikai elemzéseket végeztem el rajta.
+
+## Adatok beolvasása
+
+```{r read data, echo=FALSE}
+file_name <- "eredmeny_cleaner4.csv"
+vdata<-read.csv(file_name,fileEncoding = "UTF-8")
+names(vdata)<-iconv(names(vdata), to='ASCII//TRANSLIT')
+
+##Remove the summary line
+vdata<-vdata[-1,]
+head(vdata)
+```
+
+## Választókerületen belüli eltérések elemzése
+
+A megye és az OEVK változók kombinációjából létrehozok egy-egy teljesen független választókerületet jelölő változót.
+Majd létrehozok egy új oszlopot, ami a külön szavaz szavazóköröknek ad egy unique id-t.
+
+```{r valasztokor id, echo=TRUE}
+vdata$valker_id<-paste(vdata$Megye,vdata$OEVK)
+#Szavazokor ID, kesobb hasznaljuk a bizottsagi tagok tablaval valo egyesitesben
+vdata$szavkor_id<-ifelse(vdata$Megye=="BUDAPEST",paste("BUDAPEST",vdata$TelepID,vdata$Szavazokor), paste(iconv(toupper(vdata$Telepules),to='ASCII//TRANSLIT'),vdata$Szavazokor))
+
+```
+
+Ellenőrizzük, hogy tényleg 106 választókerület jött ki.
+
+```{r, echo=TRUE}
+table(vdata$valker_id) %>% nrow()
+```
+
+A lentebbi grafikonon az látható, hogy egy-egy független választükerületben hány szavazókör van. Ahogy láthatjuk, egyetlen kirívó választókerület van, ahol több, mint 200 db szavazókör van. Ez a kirívóan fregmentált választókerület a Baranya megyei 4-es választókerület, ahova 225 szavazókör tartozik. Országosan átlagosan 97 szavazókör tartozik egy választókerülethez.
+
+```{r, echo=FALSE}
+valasztoker<-vdata %>% group_by(valker_id) %>% summarise(count_szavkor=n())
+library(ggplot2)
+ggplot(valasztoker,aes(count_szavkor)) + geom_histogram(bins = 20) + xlab("Egy választókerületen belüli szavazókörök száma") 
+#Atlagosan hany darab szavazokor van egy valasztokeruletben
+valasztoker$count_szavkor %>% mean()
+valasztoker %>% filter(count_szavkor>200) %>% select(valker_id)
+```
+
+Érdekes megvizsgálni, hogy egy-egy választókerülethez hány ember tartozik. A lenti hisztogram mutatja az eloszlást, és azt, hogy átlagosan egy választókerülethez 72000 ember tartozik. Ebből kiugró egy 90000 fő felett számláló választókerület, méghozzá PEST 5.
+
+```{r, echo=FALSE}
+hanyember<-vdata %>% group_by(valker_id) %>% summarise(count=sum(egyeni_Nevjegyzekben))
+ggplot(hanyember, aes(count)) + geom_histogram(binwidth=5000) +xlab("Választókerületekhez tartozó szavazók száma")
+mean(hanyember$count)
+hanyember[hanyember$count>85000,]
+```
+
+Vizsgáljuk meg, hogy egy választókerületen belül milyen eltérések vannak az egyes szavazókörök eredményei között.
+Homogének a szavazókörök? Tételezzük fel, hogy egy választókerületen belül az adott FIDESZ-es politikus minden egyes szavazókörben ugyanannyira szimpatikus. Így minden szavazókörben a szavazatok ugyannyi százalékát kellene kapnia a statisztikai hibahatáron belül mozogva.
+
+Létrehozok egy új változót, ami az adott szavazókörön belüli FIDESZ egyéni szavazatok százalékos arányát mutatja.
+
+```{r fidesz_egyeni, echo=FALSE}
+vdata$egyeni_FIDESZ.KDNP_prop = vdata$egyeni_FIDESZ.KDNP/vdata$egyeni_ervenyes
+```
+
+Majd létrehozok egy táblázatot, ami az adott teljes választókerületen belül összesíti az érvényes egyéni szavazatok számát, a FIDESZ-re leadott egyéni szavazatok számát, és így a FIDESZ egyéni szavazatok százalékos arányát.
+Egy külön oszlopban tartom számon a választókerületen belüli szavazókörök FIDESZ-re szavazás arányának szórását (standard deviation).
+
+```{r,echo=FALSE}
+fidesz_egyeni<-
+  setNames(aggregate(data=vdata, cbind(egyeni_ervenyes,egyeni_FIDESZ.KDNP) ~ valker_id, FUN=sum) %>% left_join(aggregate(data=vdata, egyeni_FIDESZ.KDNP_prop ~ valker_id, FUN=sd), by="valker_id")
+           %>% left_join(vdata %>% group_by(valker_id ) %>% summarise(count=n()),by="valker_id"),
+           c("valker_id","egyeni_ervenyes_tot", "egyeni_FIDESZ.KDNP_tot", "egyeni_FIDESZ.KDNP_sd","count"))
+
+fidesz_egyeni$egyeni_FIDESZ.KDNP_prop_tot=fidesz_egyeni$egyeni_FIDESZ.KDNP_tot/fidesz_egyeni$egyeni_ervenyes_tot
+
+#fidesz_egyeni$norm_sd<-fidesz_egyeni$egyeni_FIDESZ.KDNP_sd/sqrt(fidesz_egyeni$count)
+```
+
+Csinálok egy új táblát, amiben benne van a választókerület, az adott szavazókörben hány százalékos volt a FIDESZ támogatottsága, és az adott teljes választókerületben átlagosan hány százalékos volt a FIDESZ támogatottság, és mennyi volt ennek a támogatottságnak a választókerületen belüli szórása.
+
+```{r, echo=FALSE}
+egyeni_test<-vdata %>% select(c(1:6), egyeni_FIDESZ.KDNP_prop, valker_id, egyeni_ervenyes, szavkor_id) %>% left_join(fidesz_egyeni, by="valker_id") 
+
+#eltavolitjuk az ures szavazokoroket
+egyeni_test<-egyeni_test[!is.na(egyeni_test$Megye),]
+```
+
+##Gyanús esetek és anomáliák
+
+Flageljuk meg azokat a szavazóköröket, amiknél gyanúsan magas a FIDESZ-es egyéni jelöltre szavazók aránya. Ez azt jelenti, hogy olyan szavazóköröket keresünk, ahol legalább három szórásnyival többen szavaztak a FIDESZ-re, mint átlagosan a teljes választókerületben. Ez statisztikailag az esetek 0.1%-ban fordulhatna elő
+
+Mivel 10000 szavazókör van, ha normál eloszlást mutatna a választókerületeken belüli szavazatok megoszlása, akkor körülbelül 10 ilyen esetnek kellene előfordulnia.
+Ezzel szemben 60 ilyen kerület van. Ez lehet természetesen azért, mert a szavazóköröket szándékosan így alakították ki, de utalhat helyi szinten "abnormális" mértékű FIDESZ szavazó mozgósításra.
+
+```{r, echo=FALSE}
+egyeni_test<-egyeni_test %>% mutate(tul_sok_fidesz_flag=ifelse(egyeni_FIDESZ.KDNP_prop>egyeni_FIDESZ.KDNP_prop_tot+3*egyeni_FIDESZ.KDNP_sd,1,0))
+egyeni_test %>% filter(tul_sok_fidesz_flag==1) %>% select(valker_id, szavkor_id)
+sum(egyeni_test$tul_sok_fidesz_flag,na.rm=TRUE)
+```
+
+Ezeket a gyanús szavazóköröket rárakva egy grafikonra a választókerületen belüli többi szavazókör eredményeivel együtt:
+
+```{r, fig.height=40, echo=FALSE}
+gyanus_valker_id<- egyeni_test %>% filter(tul_sok_fidesz_flag==1) %>% select(valker_id) %>% distinct()
+gyanus_valker_szavazatok<- egyeni_test %>% filter(valker_id %in% gyanus_valker_id$valker_id)
+gyanus_valker_szavazatok$tul_sok_fidesz_flag<-as.factor(gyanus_valker_szavazatok$tul_sok_fidesz_flag)
+library(ggplot2)
+ggplot(gyanus_valker_szavazatok, aes(egyeni_FIDESZ.KDNP_prop, fill=tul_sok_fidesz_flag)) +geom_histogram(binwidth = .02) +facet_grid(valker_id~.)
+```
+
+
+Hasonlóan megvizsgálhatjuk azokat a szavazóköröket, ahol a várhatónál kevesebben szavaztak a FIDESZ-re. Tehát legalább - a választókerületen belüli - három szórásnyival kevesebben szavaztak itt a FIDESZ-re, mint az átlag. Ilyen kerületból 6 db van.
+
+```{r, echo=FALSE}
+egyeni_test<-egyeni_test %>% mutate(tul_keves_fidesz_flag=ifelse(egyeni_FIDESZ.KDNP_prop<egyeni_FIDESZ.KDNP_prop_tot-3*egyeni_FIDESZ.KDNP_sd,1,0))
+sum(egyeni_test$tul_keves_fidesz_flag,na.rm=TRUE)
+```
+
+## A választási bizottság összetétele
+Vessük össze a fentieket azzal, hogy milyen volt a választási bizottság összetétele.
+
+```{r, echo=FALSE}
+file_name_delegalt<-"partdelegaltak.csv"
+deldata<-read.csv(file_name_delegalt,fileEncoding = "UTF-8",fill=TRUE)
+names(deldata)<-iconv(names(deldata), to='ASCII//TRANSLIT')
+
+deldata$Szavazokor.OEVK.szama[is.na(deldata$Szavazokor.OEVK.szama)]<-1
+
+#Szavazokor ID, kesobb hasznaljuk a szavazati tablaval valo egyesitesben
+deldata$szavkor_id<-ifelse(deldata$Megye=="BUDAPEST",paste(gsub("0","",deldata$Telepules),deldata$Szavazokor.OEVK.szama), paste(iconv(toupper(deldata$Telepules),to='ASCII//TRANSLIT'),deldata$Szavazokor.OEVK.szama))
+```
+
+Ellenőrizzük, hogy egy választási bizottságban átlagosan hány szavazatszámláló, illetve választási bizottsági tag van. (3,4 fő)
+
+```{r, echo=FALSE}
+biz_tag_per_ker<-deldata %>% group_by(szavkor_id) %>% summarise(count_biztag=n(), count_fidesz=sum(Megbizo=="FIDESZ - MAGYAR POLGÁRI SZÖVETSÉG"), prop_fidesz=count_fidesz/count_biztag) 
+mean(biz_tag_per_ker$count_biztag)
+```
+
+Ebből FIDESZ-es kicsivel több, mint másfél.
+```{r, echo=FALSE}
+mean(biz_tag_per_ker$count_fidesz)
+```
+
+Azoknak a szavazóköröknek az aránya, ahol csak FIDESZ-es bizottsági tag van 12%:
+```{r, echo=FALSE}
+mean(biz_tag_per_ker$prop_fidesz==1)
+```
+
+Vizsgájuk meg, hogy az előbbi, "gyanúsan magas" FIDESZ szavazókörökben mennyi volt a csak FIDESZ-es bizottsági tag által felügyelt körzet. Összesen 23, ami az összes (60 db) gyanús körzet közel 40%-a!
+```{r,echo=FALSE}
+egyeni_test_biztag <-egyeni_test %>% left_join(biz_tag_per_ker,by="szavkor_id")
+#egyeni_test_biztag %>% filter(tul_sok_fidesz_flag==1) %>% filter(prop_fidesz==1) 
+egyeni_test_biztag %>% filter(tul_sok_fidesz_flag==1) %>% filter(prop_fidesz==1) %>% count()
+```
+
+A részrehajlást csökkentendő, csak azokat a választókerületeket nézve, ahol volt legalább egy gyanús szavazókör, ez az arány 14.5%. 
+Tehát megállapítható, hogy a gyanúsan magas arányú FIDESZ szavazatot kapó szavazóköröknél szinte háromszor nagyobb aránnyal fordul elő olyan eset, hogy CSAK FIDESZ-es választási bizottsági tag felügyelte a munkát.
+
+```{r,echo=FALSE}
+cnt_gyanus_valker<-egyeni_test_biztag %>% filter(valker_id %in% gyanus_valker_id$valker_id) %>% count()
+cnt_gyanus_valker_csak_fidesz<-egyeni_test_biztag %>% filter(valker_id %in% gyanus_valker_id$valker_id) %>% filter(prop_fidesz==1) %>% count()
+cnt_gyanus_valker_csak_fidesz/cnt_gyanus_valker
+```
+
+Az előbbi adatokat grafikonon ábrázolva:
+
+```{r,echo=FALSE}
+egyeni_test_biztag$csak_fideszes_biztag<-ifelse(egyeni_test_biztag$prop_fidesz==1,"Csak FIDESZ-es Biztag","Nem csak FIDESZ-es Biztag")
+gyanus_valker_biztag<-egyeni_test_biztag %>% filter(valker_id %in% gyanus_valker_id$valker_id)
+ggplot(egyeni_test_biztag,aes(csak_fideszes_biztag)) + geom_bar() + xlab("Összes országos szavazókör")
+ggplot(gyanus_valker_biztag,aes(csak_fideszes_biztag)) + geom_bar() + xlab("Választókerületek, ahol vannak gyanús szavazókörök")
+ggplot(gyanus_valker_biztag %>% filter(tul_sok_fidesz_flag==1),aes(csak_fideszes_biztag)) + geom_bar() + xlab("Gyanús szavazókörök")
+```
+
+## TL;DR
+
+Azokban a szavazókörökben, ahol gyanúsan magas volt a FIDESZ szavazók aránya (az azonos választókerületben lévő többi szavazókörhöz viszonyítva) 3-szor nagyobb eséllyel ült csak FIDESZ-es bizottsági tag.
+
+## Egyes esetek megvizsgálása
+
+Végigpörgetve a kirívó eseteket:  
+* A BUDAPEST XVI. kerület 54-es szavazókörben a FIDESZ-re egyéni-listás szavazatok száma 459-362, tehát az egyéni-listás FIDESZ szavazatok aránya 1.26. Ezzel szemben a teljes XVI. kerületben ez az arány 1.04, minimális szórással. Szinte biztos, hogy rosszul lettek számolva a szavazatok.  
+* Berkesden (Baranya 2) a FIDESZ a listásnál az egyéniben 37%-kal nagyobb támogatottságát (262-191) valószínűleg a 76 mozgósított nemzetiséginek köszönheti, akik közül - bár a nemzetiségi névjegyzékben vannak feltűntetve - 27-en nem szavaztak érvényesen a nemzetiségi listára (2-nek nem is volt lepecsételve a szavazólapja). Itt csak FIDESZ-es volt a bizottsag.  
+* Hasonló a helyzet szintén Kővágószőlős 2-n, ahol az arányok 14% (152-133), 18 nemzetiségi, ebből 12 érvényes nemzetiségi listás szavazat (12 roma); valamint Perekeden (70-31), ahol 45 nemzetiségi, 39 ervenyes nemzetisegi listas (30 nemet, 9 roma), es csak FIDESZ-es bizottsag volt.  
+* Piskón (Baranya 4) a 139 egyéni és listás érvényes szavazatokkal egyéniben 132-et, listán 132-t tudott behozni a FIDESZ. Ez egyéniben 96%-os támogatottság, míg az egész Baranya 4-ben ez az arány átlagosan 54%. Megjegyzem, ez pont egy olyan szavazókör, ahol csak FIDESZ-es bizottsági tag volt.   
+* Alsózsolca 1, 2 és 4-es szavazókörökben a BORSOD 1 választókerülethez hasonlóan a FIDESZ egyéni szavazatok aránya 40% körül van. Ezzel szemben, Alsózsolca 3 és 5 szavazókörökben kiemelkedően magas FIDESZ támogatottság van, 67% és 64%, és a szavazatok szinte kizárólag a Jobbiktól lettek "átcsoportosítva". Ezekben a körzetekben a megjelentek aránya is sokkal alacsonyabb, Alsózsolca 1, 2 és 4-ben 74%, 73%, 71,5%-kal szemben Alsózsolca 3, 5-ben 63% és 59%. Az érvénytelen szavazatok aránya elég magas, Alsózsolca 5-ben például 4%. Erre a jelenségre nem találtam választ...volt többféle pártból is delegált. Van valami demográfiai oka ennek? **Azért is érdekes lenne kideríteni, mert pont BORSOD 1-ben 127 szavazatkülönbséggel nyert csak a FIDESZ.**  
+* Szajla 1 és 2 (Heves 2) között is hasonló jellegű a különbség, Szajla 1 szavazókörben 89%-os a FIDESZ támogatottság, míg Szajla 2-ben mindössze 63%. Szajla 1-ben és 2-ben is csak FIDESZ-es volt egyébként a szavazatszámláló bizottság tagja.  
+* ... Sajnos idő hiányában nem tudom a többi "gyanús" szavazókört átnézni.
+
+
+
